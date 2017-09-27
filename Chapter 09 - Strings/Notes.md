@@ -12,14 +12,14 @@ Strings can be defined as sequential collections of characters.  This means that
 
 A string that contains no characters, often referred to as the **empty string**, is still considered to be a string.  It is simply a sequence of zero characters and is represented by '' or "" (two single or two double quotes with nothing in between).
 
-Types -- like strings and lists -- that are comprised of smaller ieces are called *collection data types*.  Depending on what we are doing, we may want to treat a collection data type as a single entity (the whole), or we may want to access its parts.  This duality is useful.
+Types -- like strings and lists -- that are comprised of smaller pieces are called *collection data types*.  Depending on what we are doing, we may want to treat a collection data type as a single entity (the whole), or we may want to access its parts.  This duality is useful.
 
 
 ## 2. Operations on Strings
 
 In general, you cannot perform mathematical operations on strings, even if the strings look like numbers.
 
-Interesting, the `+` operator does work with strings, but for strings, the `+` operator represents **concatenation**, not addition.  Concatenation means joining the two operands by linking them end-to-end.
+Interestingly, the `+` operator does work with strings, but for strings, the `+` operator represents **concatenation**, not addition.  Concatenation means joining the two operands by linking them end-to-end.
 
 The `*` operator also works on strings.  It performs repetition.  For example, `'Fun'*3` is `'FunFunFun'`.  One of the operands has to be a string and the other has to be an integer.
 
@@ -54,7 +54,7 @@ If you omit the first index (before the colon), the slice starts at the beginnin
 
 The *dot notation* is the way we connect the name of an object to the name of a method it can perform.
 
-Strings are also object.  Each string has its own methods.
+Strings are also objects.  Each string has its own methods.
 
 Method     | Parameter | Description
 -----------|-----------|--------------------------------------------------
@@ -68,3 +68,93 @@ count      | item      | Returns the number of occurrences of item
 replace    | old, new  | Replaces all occurrences of old substring with new
 center     | width     | Returns a string centered in a field of width spaces
 ljust      | width     | Returns a string left justified in a field of width spaces
+rjust      | width     | Returns a string right justified in a field of width spaces
+find       | item      | Returns the leftmost index where the substring item is found
+rfind      | item      | Returns the rightmost index where the substring item is found
+index      | item      | Like find except causes a runtime error if item is not found
+rindex     | item      | like rfind except causes a runtime error if item is not found
+
+Note that the methods that return strings *do not change the original*.  Strings are immutable.
+
+The `str.format()` method can be called on a string in order to replace fields delimited by braces `{ }`.  Inside the braces is where you will put either the index of a positional argument, or the name of a keyword argument.  Inside the format() call you put the variable or expression you want to add to the string.
+
+As we stated above, strings are **immutable**, which means you cannot change an existing string.  The best you can do is create a new string that is a variation on the original.
+
+
+## 6. String Traversal
+
+A lot of computations involve processing a collection one item at a time.  For strings this means that we would like to process one character at a time.  Often we start at the beginning, select each character in turn, do something to it, and continue until the end.  This pattern of processing is called a **traversal**.
+
+The `for` statement can iterate over the items of a sequence (e.g., a list or the sequence of integers created by the `range` function.)
+
+Since a string is simply a sequence of characters, the `for` loop iterates over each character automatically.
+
+We will refer to this type of sequence iteration as **iteration by item**.  Note that it is only possible to process the characters one at a time from left to right.
+
+### The for Loop: By Index
+
+It is also possible to use the `range` runction to systematically generate the indices of the characters.  The `for` loop can then be used to iterate over these positions.  These positions can be used together with the indexing operator to access the individual characters in the string.
+
+Iteration by position allows the programmer to control the direction of the traversal by changing the sequence of index values.
+
+### The while Loop: By Index
+
+The `while` loop can also control the generation of the index values.  Remember that the programmer is responsible for setting up the initial condition, making sure that the condition is correct, and making sure that something changes inside the body to guarantee that the condition will eventually fail and we avoid an infinite loop.
+
+## 7. Looping and Counting
+
+If you want to find out if a particular character is in a string, you could iterate through the string and compare each character to the desired character and then return a boolean value indicating if it was found or not.  But you could also just use the convenient `in` operator (or its opposite, `not in`) and it will return the same information.  The `in` operator tests if one string is a substring of another.
+
+Note that a string is a substring of itself, and the empty string is a substring of any other string.
+
+
+## 8.  Character Classification
+
+The `string` module provides several constants that are useful.  One of these, `string.digits` is equivalent to "0123456789".  It can be used to check if a character is a digit using the `in` operator.
+
+The string `string.ascii_lowercase` contains all of the ascii letters that the system considers to be lowercase.  Similarly, `string.ascii_uppercase` contains all of the uppercase letters.  `string.punctuation` comprises all the characters considered to be puctuation.
+
+
+## 9. Summary
+
+**indexing(`[ ]`)**  
+Access a single character in a string using its postion (starting from 0).
+
+**length function(`len`)**  
+Returns the number of characters in a string.
+
+**for loop traversal(`for`)**  
+*Traversing* a string means accessing each character in the string, one at a time.
+
+**slicing(`[:]`)**  
+A *slice* is a substring of a string.
+
+**string comparison(`>, <, >=, <=, ==, !=`)**  
+The six common comparison operators work with strings, evaluating according to lexicographical order.  All upper case letters precede lower case letters.
+
+**in and not in operator(`in`, `not in`)**  
+The `in` operator tests whether one string is contained inside another string.
+
+
+## 10. Glossary
+
+**collection data type**  
+A data type in which the values are made up of components, or elements, that are themselves values.
+
+**dot notation**  
+Use of the **dot operator**, `.`, to access functions inside a module, or to access methods and attributes of an object.
+
+**immutable**  
+Data types whose content cannot be changed after creation (e.g., strings, ints, floats, tuples).
+
+**index**  
+A variable or value used to select a memeber of an ordered collection, such as a character from a string, or an element from a list.
+
+**slice**  
+A part of a string (substring) specified by a range of indices.  More generally, a subsequence of any sequence type in Python can be created using the slice operator (`sequence[start:stop]`).
+
+**traverse**  
+To iterate through the elements of a collection, performing a similar operation on each.
+
+**whitespace**  
+Any of the charactrers that move the cursor without printing visible characters.  The constant `string.whitespace` contains all the white-space characters.
