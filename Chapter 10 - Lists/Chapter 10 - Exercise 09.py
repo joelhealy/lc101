@@ -46,15 +46,25 @@ def index(val, list):
 
     found_index = -1
     for i in range(len(list)):
-        if item == val:
+        if list[i] == val:
+            found_index = i
+            break
 
-    return 0
+    return found_index
 
 
 def insert(item, index, list):
     """ Insert <item> into <list> at position <index> """
 
-    return list
+    new_list = []
+    for i in range(len(list)):
+        if i == index:
+            new_list.append(item)
+        new_list.append(list[i])
+    if index == len(list):
+        new_list.append(item)
+
+    return new_list
 
 
 def testEqual(a, b):
