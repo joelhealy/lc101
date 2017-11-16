@@ -1,56 +1,24 @@
-from flask import Flask, request, redirect
-import cgi
+from flask import Flask, request, redirect, render_template
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-form = """
-<!DOCTYPE html>
-<html>
-    <body>
-        <form action="/hello" method="POST">
-            <label for="first_name">First Name:</label>
-            <input id="first_name" type="text" name="first_name" />
-            <input type="submit" />
-        </form>
-    </body>
-</html>
-"""
-
 
 @app.route("/")
 def index():
-    return form
+    return render_template('hello_form.html')
     
 
 @app.route("/hello", methods=['POST'])
 def hello():
     first_name = request.form['first_name']
-    return '<h1>Hello ' + cgi.escape(first_name) + '</h1>'
-
-
-time_form = """
-    <style>
-        .error {{ color: red; }}
-    </style>
-    <h1>Validate Time</h1>
-    <form method='POST'>
-        <label>Hours (24-hour format)
-            <input name="hours" type="text" value='{hours}' />
-        </label>
-        <p class="error">{hours_error}</p>
-        <label>Minutes
-            <input name="minutes" type="text" value='{minutes}' />
-        </label>
-        <p class="error">{minutes_error}</p>
-        <input type="submit" value="Validate" />
-    """
+    return render_template('hello_greeting.html', name=first_name)
 
 
 @app.route('/validate-time')
 def display_time_form():
-    return time_form.format(hours='', hours_error='',
-        minutes='', minutes_error='')
+    return render_template('time_form.html')
 
 
 def is_integer(num):
@@ -92,7 +60,8 @@ def validate_time():
         time = str(hours) + ':' + str(minutes)
         return redirect('/valid-time?time={0}'.format(time))
     else:
-        return time_form.format(hours_error=hours_error,
+        return render_template('time_form.html', 
+            hours_error=hours_error,
             minutes_error=minutes_error,
             hours=hours,
             minutes=minutes)
@@ -102,4 +71,17 @@ def validate_time():
 def valid_time():
     time = request.args.get('time')
     return '<h1>You submitted {0}. Thanks for submitting a valid time!</h1>'.format(time)
+
+global_tasks = []
+
+@app.route('/todos', methods=['GET', 'POST'])
+def todos():
+
+    if request.method == 'POST':
+        task = request.form['task']
+        global_tasks.append(task)
+
+    return render_template('todos.html', title="TODOs", tasks=global_tasks)
+
+
 app.run()
