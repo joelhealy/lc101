@@ -12,7 +12,7 @@ Even though our database does not have entries in it, we can imagine that it doe
 
     List all the titles of the movies in the database in descending order of the year they were released.
 
-    SELECT title FROM movies ORDER BY year DESCENDING;
+    SELECT title FROM movies ORDER BY year DESC;
 
     Insert a new record into the directors table for Jean-Pierre Jeunet whose country of origin is France. (Note: Assume the column for director_id is auto incremented, so you don't need to put in a value for that column.)
 
@@ -27,7 +27,7 @@ Even though our database does not have entries in it, we can imagine that it doe
 
     Insert a new record into the movies table for Amelie which was released in 2001 and directed by Jean-Pierre Jeunet. (Hint: Assume the id you got from the last query was "2" and use that. And, like question 3, assume the movie_id column is auto incremented).
 
-    INSERT INTO movies (title, year, director)
+    INSERT INTO movies (title, year, director_id)
     VALUES ('Amelie', 2001, 2);
 
     List all columns for all records of the directors table in ascending alphabetical order of the director's country of origin.
@@ -40,13 +40,13 @@ Even though our database does not have entries in it, we can imagine that it doe
 
     SELECT directors.country
       FROM movies
-      JOIN directors ON movies.director = directors.director_id
-     WHERE movie.title = 'Amelie';
+      JOIN directors ON movies.director_id = directors.director_id
+     WHERE movies.title = 'Amelie';
 
     List all the movies in the database along with each movie's director, ordered by the director's last name in ascending order. (Hint: you'll want to use a join and choose the columns title, first, and last).
 
     SELECT movies.title, directors.first, directors.last
       FROM movies
-      JOIN directors ON movies.director = directos.director_id
+      JOIN directors ON movies.director_id = directors.director_id
      ORDER BY directors.last;
 
