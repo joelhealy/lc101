@@ -1,0 +1,32 @@
+Here are some of the things Sarah needs your help with:
+
+1.  Find out which countries the directors in her collection are from (and make sure your result set only lists each country only once).
+
+2.  Who are the French directors in her database?
+
+3.  What is the date of the first time someone viewed one of Sarah's movies?
+
+4.  How many movies in her collection were directed by people born in the USA?
+
+5.  What are the titles of the movies in her collection that were directed by Akira Kurosawa?
+
+6.  How many times has the movie "Talk to Me" been viewed?
+
+7.  When was the last time someone viewed one of her movies?
+
+8.  What is the id of the last-viewed movie?
+
+9.  What is the title of the first movie she loaned to a friend for viewing?
+
+10. What is the first and last name of the person who viewed the last-viewed movie?
+
+
+Bonus Missions
+
+11. Write the SQL query to display the DVDs that others have watched in order of most viewed to least viewed. What's the title of the most-viewed movie(s) in Sarah's collection?
+
+12. Find the email of everyone who has watched "The Tango Lesson", so Sarah can email them and ask what they thought of it.
+
+13. Sarah is hosting a Kurosawa film festival soon and needs an email list to send out invites. What are the full names and emails of all her friends who have watched any movie by Akira Kurosawa?
+
+
