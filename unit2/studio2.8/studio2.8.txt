@@ -2,31 +2,180 @@ Here are some of the things Sarah needs your help with:
 
 1.  Find out which countries the directors in her collection are from (and make sure your result set only lists each country only once).
 
+distinct country from directors;
++-------------+
+| country     |
++-------------+
+| France      |
+| Japan       |
+| New Zealand |
+| UK          |
+| USA         |
+| Netherlands |
++-------------+
+
 2.  Who are the French directors in her database?
+
+select * from directors where country='France';
++-------------+-------------+--------+---------+
+| director_id | first       | last   | country |
++-------------+-------------+--------+---------+
+|           1 | Jean-Pierre | Jeunet | France  |
+|           2 | Jean        | Renoir | France  |
++-------------+-------------+--------+---------+
 
 3.  What is the date of the first time someone viewed one of Sarah's movies?
 
+select min(date_viewed) from viewings;
++------------------+
+| min(date_viewed) |
++------------------+
+| 2007-09-23       |
++------------------+
+
 4.  How many movies in her collection were directed by people born in the USA?
+
+select count(*)
+  from movies
+ where director_id in (select director_id
+                         from directors
+                        where country='USA');
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
 
 5.  What are the titles of the movies in her collection that were directed by Akira Kurosawa?
 
+select title
+  from movies
+  join directors
+    on movies.director_id = directors.director_id
+ where first='Akira' and last='Kurosawa';
++-----------------+
+| title           |
++-----------------+
+| Ran             |
+| Seven Samurai   |
+| Throne of Blood |
++-----------------+
+
 6.  How many times has the movie "Talk to Me" been viewed?
+
+select count(*)
+  from viewings   
+  JOIN movies On viewings.movie_id = movies.movie_id
+ where movies.title = 'Talk to Me';
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
 
 7.  When was the last time someone viewed one of her movies?
 
+select max(date_viewed)
+ from viewings;
++------------------+
+| max(date_viewed) |
++------------------+
+| 2017-05-08       |
++------------------+
+
 8.  What is the id of the last-viewed movie?
+
+select movie_id
+  from viewings
+ where date_viewed = (select max(date_viewed) from viewings);
++----------+
+| movie_id |
++----------+
+|       21 |
++----------+
 
 9.  What is the title of the first movie she loaned to a friend for viewing?
 
+select movies.title
+  from movies
+  join viewings on movies.movie_id = viewings.movie_id
+ where date_viewed = (select min(date_viewed) from viewings);
++----------------------+
+| title                |
++----------------------+
+| An Angel at My Table |
++----------------------+
+
 10. What is the first and last name of the person who viewed the last-viewed movie?
 
+select first, last
+  from viewers
+  join viewings on viewers.viewer_id = viewings.viewer_id
+  where date_viewed = (select max(date_viewed) from viewings);
++-------+-------+
+| first | last  |
++-------+-------+
+| Luigi | Greco |
++-------+-------+
 
 Bonus Missions
 
 11. Write the SQL query to display the DVDs that others have watched in order of most viewed to least viewed. What's the title of the most-viewed movie(s) in Sarah's collection?
 
+select title, count(viewings.movie_id) 'watched'
+  from viewings
+  join movies on viewings.movie_id = movies.movie_id
+  group by viewings.movie_id
+  order by count(viewings.movie_id) desc;
++---------------------------+---------+
+| title                     | watched |
++---------------------------+---------+
+| Amelie                    |       4 |
+| Antonia's Line            |       4 |
+| Far From Heaven           |       3 |
+| Ran                       |       2 |
+| Eve's Bayou               |       2 |
+| Orlando                   |       2 |
+| Mrs. Dalloway             |       2 |
+| Talk to Me                |       2 |
+| La Grande Illusion        |       2 |
+| The City of Lost Children |       1 |
+| An Angel at My Table      |       1 |
+| Carol                     |       1 |
+| The Rules of the Game     |       1 |
+| Throne of Blood           |       1 |
+| The Lower Depths          |       1 |
+| The Piano                 |       1 |
+| Seven Samurai             |       1 |
+| Selma                     |       1 |
+| The Tango Lesson          |       1 |
++---------------------------+---------+
+
 12. Find the email of everyone who has watched "The Tango Lesson", so Sarah can email them and ask what they thought of it.
+
+select email
+  from viewers 
+  join viewings on viewers.viewer_id = viewings.viewer_id
+  join movies on viewings.movie_id = movies.movie_id
+ where movies.title = 'The Tango Lesson';
++---------------------+
+| email               |
++---------------------+
+| youknowwho@live.com |
++---------------------+
 
 13. Sarah is hosting a Kurosawa film festival soon and needs an email list to send out invites. What are the full names and emails of all her friends who have watched any movie by Akira Kurosawa?
 
-
+select distinct viewers.first, viewers.last, viewers.email
+  from viewings
+  join viewers on viewings.viewer_id = viewers.viewer_id
+  join movies on viewings.movie_id = movies.movie_id
+  join directors on movies.director_id = directors.director_id
+ where directors.first = 'Akira' and directors.last = 'Kurosawa';
++--------+-----------+----------------------+
+| first  | last      | email                |
++--------+-----------+----------------------+
+| Alicen | Brightley | abrightley@yahoo.com |
+| Renard | Sartor    | rsartor@washu.edu    |
+| Jackie | Linwood   | jLinwood@yahoo.com   |
++--------+-----------+----------------------+
