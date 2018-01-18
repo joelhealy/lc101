@@ -1,30 +1,38 @@
 
-printPyramid(6);
+drawPyramid(5);
 
 
-/*
- * printPyramid
+/**
+ * drawPyramid
  *
- * Prints to the console a pyramid of '#' characters of the specified height
- * For example, if height is 5, the console will look like this:
- *          ##
- *         ###
- *        ####
- *       #####
- *      ######
+ * Renders, in the HTML document, a Mario pyramid of the specified height
  */
-function printPyramid(height) {
-    var row; 
+function drawPyramid(height) {
 
-    for (var rownum = 0; rownum < height; rownum++) {
-        row = "";
-        for (var colnum = 0; colnum <= height; colnum++) {
-            if (colnum < height - rownum - 1) {
-                row += ' ';
-            } else {
-                row += '#';
-            }
+    var construction = document.getElementById("construction");
+    construction.parentNode.removeChild(construction);
+
+    var pyramid = document.getElementById("pyramid");
+
+    // for each row....
+    for (var row = 0; row < height; row++) {
+
+        // figure out number of bricks and spaces
+        var numBricks = row + 2;
+        var numSpaces = height - row - 1;
+
+        // build up a string for this row
+        var rowStr = "";
+        for (var i = 0; i < numSpaces; i++) {
+            rowStr += "."; // QUIZ: what happens if we use a space (" ") instead of a period?
         }
-        console.log(row);
+        for (var i = 0; i < numBricks; i++) {
+            rowStr += "#";
+        }
+
+        var pRow = document.createElement('p');
+        pRow.innerHTML = rowStr;
+        pyramid.appendChild(pRow);
+
     }
 }
