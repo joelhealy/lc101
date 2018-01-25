@@ -5,6 +5,7 @@ import cgi
 app = Flask(__name__)
 app.config['DEBUG'] = True      # displays runtime errors in the browser, too
 
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'oracle://easoh:easoh@204.47.240.19:1521/r7lims'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://flicklist:MyNewPass@localhost:8889/flicklist'
 app.config['SQLALCHEMY_ECHO'] = True
 
